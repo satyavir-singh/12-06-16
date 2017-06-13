@@ -111,7 +111,7 @@ if(!array_key_exists('username', $_SESSION))
 
 		<div style="float: left;padding-top: 4px;width: 100px;">
 			<table>
-				<tr><td><?php echo $_SESSION['username']; ?></td>
+				<tr><td><i class="fa fa-user-circle" aria-hidden="true">&nbsp;<?php echo $_SESSION['username']; ?></td>
 				<td><div class="dropdown">
 					  <button class="dropbtn">ACCOUNT</button>
 					  <div class="dropdown-content">
@@ -126,11 +126,15 @@ if(!array_key_exists('username', $_SESSION))
 		</div>
 
 		<div style="width:100%;margin-left:30%;">
-			
-			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px; margin-right: 345px;" >
-			
-			<a href=""><button><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</button></a>
 
+			<div style="float:left;margin-right: 285px;">
+			
+			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px;" >
+			</div>
+			
+			<div style="float:left;">
+			<a href="cart.php" class="button"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</a>
+			</div>
 			
 		</div>
 		
@@ -243,7 +247,7 @@ if(!array_key_exists('username', $_SESSION))
 									{
 							?>
 										
-												<a href="category.php?cat_id=<?php echo $cat_id; ?>" class="button">
+												<a href="sub_category.php?cat_id=<?php echo $row1['cat_id']; ?>&sub_category_id=<?php echo $row1['sub_category_id']; ?>" style="background-color: #0094ff" class="button">
 													<?php echo $row1['sub_category_name'] ?>
 												</a>
 											

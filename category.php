@@ -2,10 +2,11 @@
 	session_start();
 	require_once("config.php");
 	$cat_id=$_GET['cat_id'];
-if(!array_key_exists('username', $_SESSION))
+	//echo $sub_category_id=$_GET['sub_category_id'];
+/*if(!array_key_exists('username', $_SESSION))
 {
 	header('Location: start.php');
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -110,7 +111,7 @@ if(!array_key_exists('username', $_SESSION))
 
 		<div style="float: left;padding-top: 4px;width: 100px;">
 			<table>
-				<tr><td><?php echo $_SESSION['username']; ?></td>
+				<tr><td><i class="fa fa-user-circle" aria-hidden="true">&nbsp;<?php echo $_SESSION['username']; ?></td>
 				<td><div class="dropdown">
 					  <button class="dropbtn">ACCOUNT</button>
 					  <div class="dropdown-content">
@@ -125,11 +126,15 @@ if(!array_key_exists('username', $_SESSION))
 		</div>
 
 		<div style="width:100%;margin-left:30%;">
-			
-			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px; margin-right: 345px;" >
-			
-			<a href=""><button><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</button></a>
 
+			<div style="float:left;margin-right: 285px;">
+			
+			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px;" >
+			</div>
+			
+			<div style="float:left;">
+			<a href="cart.php" class="button"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</a>
+			</div>
 			
 		</div>
 		
@@ -232,7 +237,7 @@ if(!array_key_exists('username', $_SESSION))
 						<?php
 				
 							$query1="SELECT * FROM sub_category_id a JOIN category_id b on 
-							a.cat_id=b.cat_id where a.cat_id='".$cat_id."'and a.sub_category_id='".$sub_category_id."'";
+							a.cat_id=b.cat_id where a.cat_id=$cat_id";
 
 
 
@@ -242,17 +247,17 @@ if(!array_key_exists('username', $_SESSION))
 									{
 							?>
 										
-												<a href="category.php?cat_id=<?php echo $cat_id; ?>" class="button">
+												<a href="sub_category.php?cat_id=<?php echo $row1['cat_id']; ?>&sub_category_id=<?php echo $row1['sub_category_id']; ?>" style="background-color: #0094ff" class="button">
 													<?php echo $row1['sub_category_name'] ?>
 												</a>
-											
+			
 										
 
 
 										<?php
 								
 										$query2="SELECT * FROM sub_category a JOIN product b on 
-											a.p_id=b.p_id where a.cat_id='".$cat_id."'";
+											a.p_id=b.p_id where a.cat_id='".$cat_id."' and a.sub_category_id='".$row1['sub_category_id']."' ";
 
 
 
@@ -296,6 +301,7 @@ if(!array_key_exists('username', $_SESSION))
 
 			
 		</div>
+		
 		
 		
 

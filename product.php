@@ -5,6 +5,10 @@
 	$sub_category_id=$_GET['sub_category_id'];
 	$p_id=$_GET['p_id'];
 
+	if(array_key_exists('emailid', $_SESSION))
+	{
+		$emailid=$_SESSION['emailid'];
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,6 +17,9 @@
 			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			  crossorigin="anonymous">	  	
 	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 	
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<style type="text/css">
@@ -122,12 +129,16 @@
 			</table>
 		</div>
 
-		<div style="float:left;width:100%;margin-left:30%;">
-			
-			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px; margin-right: 345px;" >
-			
-			<a href=""><button><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</button></a>
+		<div style="width:100%;margin-left:30%;">
 
+			<div style="float:left;margin-right: 285px;">
+			
+			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px;" >
+			</div>
+			
+			<div style="float:left;">
+			<a href="cart.php" class="button"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</a>
+			</div>
 			
 		</div>
 		
@@ -175,7 +186,7 @@
 					$result = mysqli_query($con,$query);
 
 					$row=mysqli_fetch_assoc($result);
-					pri
+					
 			?>
 			<button style="background-color: #0094ff"><?php echo $row['category_name']; ?></button><br>
 			
@@ -205,9 +216,13 @@
 							
 								<img src="<?php echo $row['image']; ?>" width="150px" style="margin-left: 70px"><br>
 								<div>
-									<div style="float:left;margin-right:5px;"><a class="button" href=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;ADD To CART</a></div>
-									<div style="float:left;"><a  class="button" href=""><i class="fa fa-bolt" aria-hidden="true"></i>
-BUY NOW</a></div>
+									<div style="float:left;margin-right:5px;">
+									<button type="submit" class="add_cart" ><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;
+									ADD To CART</button>
+									</div>
+									<div style="float:left;"><button type="submit" class="buy_now" ><i class="fa fa-bolt" aria-hidden="true"></i>
+									BUY NOW</button>
+								</div>
 
 								</div>
 						</div>
@@ -225,9 +240,19 @@ BUY NOW</a></div>
 								</tr>
 
 								<tr>
+									<td>
+										Quantity:
+									</td>
+									<td>
+										<input type="number" name="quantity" id="quantity" min="1" value="1" max="10">
+									</td>
+								</tr>
+
+
+								<tr>
 								<td>Product Price:</td>
 								<td><i class="fa fa-inr" aria-hidden="true"></i>
-										<?php echo $row['p_price']; ?>
+								<?php echo $row['p_price']; ?>
 								</td>
 								</tr>
 
@@ -245,6 +270,8 @@ BUY NOW</a></div>
 
 		</div>
 
+		<h3 class="ajax_div"></h3>
+
 
 	</div>
 
@@ -254,4 +281,34 @@ BUY NOW</a></div>
 	
 
 </body>
+
+<script>
+		
+	$(".add_cart").click(function(){
+
+		var quantity=$("#quantity").val();
+		var p_id=<?php echo $p_id; ?>;
+		var cat_id=<?php echo $cat_id; ?>;
+		//var emailid="<?php echo $emailid; ?>";
+
+
+		$.ajax({
+			url:'cartdb.php',
+			type :'POST',
+			data:{p_id:p_id,cat_id:cat_id,quantity:quantity},			
+			success: function(html){
+				$(".ajax_div").html(html);
+			},
+			error: function(){
+				alert("error");
+			}
+		});
+	});
+
+	</script>
+
+
 </html>
+
+
+

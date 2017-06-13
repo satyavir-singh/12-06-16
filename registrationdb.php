@@ -10,6 +10,8 @@
 
 	$_SESSION['username'] = $username;
 	
+
+	
 	
     mysqli_select_db($con,"web");
 
@@ -28,6 +30,6 @@
 
 	}
 
-
+print_r($_SESSION);
 
 ?>
