@@ -177,6 +177,15 @@
 						</div>
 					
 					</div>
+
+					<div style="width: 1200px;">
+						<div style="float: left;margin-left:300px;margin-right: 50px;">
+							<a href="" class="button">Continue Shopping</a>
+						</div>
+						<div style="float: left;">
+							<a href="" class="button">Place Order</a>
+						</div>
+					</div>
 					<?php
 
 						}
