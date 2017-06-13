@@ -171,7 +171,9 @@
 						<div style="float: left;">
 							<?php echo $row1['p_name']; ?><br><br>
 							<i class="fa fa-inr" aria-hidden="true"></i><?php echo $row1['p_price']; ?><br><br>
-							<?php echo $row1['quantity']; ?>
+							<input type="number" name="quantity" id="quantity" min="1" value="<?php echo $row1['quantity']; ?>" max="10"><br><br>
+
+							<a href="" class="button">REMOVE</a>
 						</div>
 					
 					</div>
