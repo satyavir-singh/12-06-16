@@ -2,20 +2,54 @@
 	session_start();
 
     $emailid=$_SESSION['emailid'];
-    require_once("config.php");
+    $cart_id=$_GET['cart_id'];
+    //$quantity=$_POST['quantity'];
+    $tracking_number=rand(100000,999999);
+    $grand_total=$_GET['grand_total'];
+	
+	require_once("config.php");
+	if(!array_key_exists('username', $_SESSION))
+	{
+		header('Location: start.php');
+	}
 
-	$query="SELECT * FROM cart_id where emailid='".$emailid."'";    	
-	$result=mysqli_query($con,$query);
-	$row=mysqli_fetch_assoc($result);
+	mysqli_select_db($con,"web");
 
+	
+	$query= "INSERT INTO orders (c_email,tracking_number,grand_total)  VALUES ('$emailid','$tracking_number','$grand_total') ";
+    $result=mysqli_query($con,$query);
 
+   
+    if($result)
+    {
+    	$query1="SELECT * FROM orders where c_email='".$emailid."'";    	
+		$result1=mysqli_query($con,$query1);
+		$row1=mysqli_fetch_assoc($result1);
 
- ?>
+		$query2="SELECT * FROM cart where cart_id='".$cart_id."'and emailid='".$emailid."'";    	
+		$result2=mysqli_query($con,$query2);
+		//$row2=mysqli_fetch_assoc($result2);
+		//print_r($row2);
+		//$count=mysqli_num_rows($result2);
+		while($row2=mysqli_fetch_assoc($result2))
+		{
+	
+		$query3=  "INSERT INTO orders_products (order_id,p_id)  VALUES ('".$row1['order_id']."','".$row2['p_id']."') ";
 
+    		$result3=mysqli_query($con,$query3); 
 
- <!DOCTYPE html>
- <html>
- <head>
+	    	if(result3)
+	    	{
+	    		$result = mysqli_query($con, "DELETE FROM cart WHERE cart_id='".$cart_id."'");
+
+	    	}
+    	}
+	}
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
 	
 	<script src="https://code.jquery.com/jquery-3.2.1.js"
 			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -104,9 +138,8 @@
 	</style>
 
 </head>
- <body>
-
-	<div class="header" style="height:100px;width:100%;background-color: #0094ff;margin:0;">
+<body>
+		<div class="header" style="height:100px;width:100%;background-color: #0094ff;margin:0;">
 
 		<div style="float: left;width: 1070px;margin-left: 15px;">
 
@@ -137,83 +170,18 @@
 			
 			<input type="text" name="search" id="search" class="search"  placeholder="search" style="width: 400px;" >
 			</div>
-			
-			<div style="float:left;">
-			<a href="cart.php" class="button"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>&nbsp;CART</a>
-			</div>
-			
 		</div>
-		
-	</div>
+
+		<div>
+			<h1>Successfully order place and your tracking address : 
+			<?php echo $tracking_number ;?>
+				</h1>
+		</div>
 
 
 
-	<div class="section">
-		<h1>MY CART</h1>
-		
-			
 
-					<?php
-
-						$query1="SELECT * FROM product a JOIN cart b on 
-							a.p_id=b.p_id where b.emailid='".$emailid."' and b.cart_id='".$row['cart_id']."'";
-							$result1=mysqli_query($con,$query1);
-						while($row1=mysqli_fetch_assoc($result1))
-						{
-
-
-					?>
-			
-					<div>
-						<div style="float: left;width:300px;">
-							<img src="<?php echo $row1['image']; ?>" width="150px" style="margin-left: 70px">
-						</div>
-						<div style="float: left;">
-						<table>
-						<tr>
-						<td colspan="2"><?php echo $row1['p_name']; ?></td>
-						</tr>
-						<tr>
-						<td>
-							<i class="fa fa-inr" aria-hidden="true"></i><?php echo $row1['p_price']; ?><br><br>
-							<input type="number" name="quantity" id="quantity" min="1" value="<?php echo $row1['quantity']; ?>" max="10">
-						</td>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						<td>
-						
-							<a href="remove.php?cart_id=<?php echo $row1['cart_id']; ?>&p_id=<?php echo $row1['p_id']; ?>" class="button">
-							<i class="fa fa-trash-o" aria-hidden="true"></i>
-							REMOVE
-							</a>
-						</td>
-						</table>
-						</div>
-					
-					</div>
-						
-				
-				<?php
-
-						}
-				?>
-		
-		
-			<br>
-			<div style="width: 1200px;">
-						<div style="float: left;margin-left:303px;margin-right: 50px;">
-							<a href="login_dashboard.php" class="button" style="width: 250px;">
-							<i class="fa fa-reply" aria-hidden="true"></i>
-							Continue Shopping</a>
-						</div>
-						<div style="float: left;">
-							<a href="order.php?cart_id=<?php echo $row['cart_id']; ?>" class="button" style="width: 250px;">Place Order</a>
-						</div>
-			</div>
-
-			
-			
-	</div>
 
 
 </body>
- </html>
+</html>

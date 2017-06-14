@@ -18,7 +18,7 @@
 			
 		
 		$count=mysqli_num_rows($result);
-		if($count >= 0 )
+		if($count <= 0 )
 		{
 			$query= "INSERT INTO cart_id (emailid)  VALUES ('$emailid') ";
             $result=mysqli_query($con,$query);
@@ -40,7 +40,7 @@
 		{
 			   
 
-$query= "INSERT INTO cart (cart_id,p_id,emailid,quantity)  VALUES ('".$row['cart_id']."','$p_id','$emailid','$quantity') ";
+		$query= "INSERT INTO cart (cart_id,p_id,emailid,quantity)  VALUES ('".$row['cart_id']."','$p_id','$emailid','$quantity') ";
    			//$result=mysqli_query($con,$query);
 
    			$result = mysqli_query($con,$query);

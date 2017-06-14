@@ -115,7 +115,7 @@ if(!array_key_exists('username', $_SESSION))
 				<td><div class="dropdown">
 					  <button class="dropbtn">ACCOUNT</button>
 					  <div class="dropdown-content">
-					  	<a href="">DETAIL</a>
+					  	<a href="detail.php">DETAIL</a>
 					    <a href="">SETTING</a>
 					    <a href="logout.php">LOGOUT</a>
 					  </div>
