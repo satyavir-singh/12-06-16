@@ -1,10 +1,48 @@
 <?php
 	session_start();
 	require_once("config.php");
+
 	if(!array_key_exists('admin_name', $_SESSION))
-{
-	header('Location: start.php');
-}
+	{
+		header('Location: start.php');
+	}
+
+	$cat_id=$_GET["cat_id"];
+	$update=$_GET['update'];
+	$delete=$_GET['delete'];
+
+
+	if( $delete )
+	{
+		$query="DELETE from category_id where cat_id=$cat_id";
+		 $result=mysqli_query($con,$query);
+	    header("Location: admin_dashboard.php");
+	}
+
+	if( (isset($_POST['category_name']))  && ($update=1) )
+	{
+			$cat_id=$_POST["cat_id"];
+			$category_name=$_POST["category_name"];
+
+			$query="UPDATE category_id
+			SET category_name='$category_name'
+			WHERE cat_id=$cat_id "; 
+
+		    $result=mysqli_query($con,$query);
+
+	    if ($result) 
+	    {
+	    	header("Location: admin_dashboard.php");
+	    }
+
+
+	}
+
+	
+
+	
+
+	
 ?>
 
 <!DOCTYPE html>
@@ -134,39 +172,34 @@
 	</div>
 
 		<div class="section">
-			<div style="float:right;margin-right: 40px;">
+			
+			<div style="width: 1200px;margin-left: 70px;">
 			<br>
-			<input type="submit" value="ADD CATEGORY" class="category">
-			</div><br>
-			<div style="width: 1200px;">
-			<br>
-			<table border="1" class="bordered">
-				<tr>
-					<td align="center">CATEGORY NAME</td>
-					<td align="center">VIEW SUB-CATEGORY</td>
-					<td align="center">ACTION</td>
-				</tr>
+			<h4 style="margin-left: 90px;">
+				EDIT CATEGORY
+			</h4>
 				<?php
 					
-					$query="SELECT * FROM category_id";
+					$query="SELECT * FROM category_id where cat_id='".$cat_id."'";
 					$result = mysqli_query($con,$query);
 
-					while($row=mysqli_fetch_assoc($result))
-					{
+					$row=mysqli_fetch_assoc($result);
+				
 						
 				?>
-
+				<form method="POST" action="<?=$_SERVER['PHP_SELF']?>">
+				<table>
 				<tr>
-					<td align="center"><?php echo $row['category_name'] ?></td>
-					<td><a href="view_category.php?cat_id=<?php echo $row['cat_id']; ?>" >VIEW</a></td>
-					<td><a href="update_delete_category.php?cat_id=<?php echo $row['cat_id']; ?>&update=1" >UPDATE</a></td>
-					<td><a href="update_delete_category.php?cat_id=<?php echo $row['cat_id']; ?>&delete=1" >DELETE</a></td>
+					<input type="hidden" name="cat_id" id="cat_id" value="<?php echo $row['cat_id'] ?>">
+					<td>CATEGORY NAME :</td>
+					<td><input type="text" name="category_name" id="category_name" value="<?php echo $row['category_name'] ?>"></td>
+				</tr>
+					<td></td>
+					<td><input type="Submit" value="UPDATE" name=""></td>
 				</tr>		
 				
-				<?php  
-					}
-				?>	
-
+				</table>
+			</form>
 				
 			</div>
 		</div>	

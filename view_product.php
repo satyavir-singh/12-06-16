@@ -2,11 +2,14 @@
 	session_start();
 	require_once("config.php");
 	$cat_id=$_GET['cat_id'];
-	
+	$sub_category_id=$_GET['sub_category_id'];
+	$p_id=$_GET['p_id'];
+
+
 	if(!array_key_exists('admin_name', $_SESSION))
-{
-	header('Location: start.php');
-}
+	{
+		header('Location: start.php');
+	}
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +87,9 @@
 			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			  crossorigin="anonymous">	  	
 	</script>
-	
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script> -->
+          
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<!-- <style type="text/css">
 		div{
@@ -136,44 +141,108 @@
 	</div>
 
 
-		<div class="section">
-			<div style="float:right;margin-right: 40px;">
-			<br>
-			<input type="submit" value="ADD SUB-CATEGORY" class="sub_category">
-			</div><br>
-			<div style="width: 1200px;">
-			<br>
-			<table border="1" class="bordered">
-				<tr>
-					<td align="center">SUB-CATEGORY NAME</td>
-					<td align="center">VIEW</td>
-					<td align="center">ACTION</td>
-				</tr>
-				<?php
-					
-					$query="SELECT * FROM sub_category_id where cat_id='$cat_id' ";
+		<div class="section" style="background-color: white;">
+
+	
+
+
+
+
+		<div class="first_section" style="float:left;margin-left: 50px;">
+
+
+			<?php
+				
+					$query="SELECT * FROM category_id where cat_id=$cat_id";
 					$result = mysqli_query($con,$query);
 
-					while($row=mysqli_fetch_assoc($result))
-					{
+					$row=mysqli_fetch_assoc($result);
+					
+			?>
+			<button style="background-color: #0094ff"><?php echo $row['category_name']; ?></button><br>
+			
+			<?php
+				
+					$query1="SELECT * FROM sub_category where sub_category_id='".$sub_category_id."'";
+					$result1 = mysqli_query($con,$query1);
+					$row1=mysqli_fetch_assoc($result1);
+
+			?>
+			<i class="fa fa-caret-square-o-right" aria-hidden="true"></i>
+			<button style="background-color: #0094ff"><?php echo $row1['sub_category_name']; ?></button><br>
+
+
+
+			<?php
+				
+					$query2="SELECT * FROM product where p_id=$p_id";
+					$result2 = mysqli_query($con,$query2);
+
+					$row2=mysqli_fetch_assoc($result2);
+			?>
+			<br>	
+					<div class="product">
 						
-				?>
+						<div style="float:left;margin-left: 50px;">
+							
+								<img src="<?php echo $row2['image']; ?>" width="150px" style="margin-left: 70px"><br>
+								
 
-				<tr>
-					<td align="center"><?php echo $row['sub_category_name'] ?></td>
-					<td><a href="view_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>" >VIEW</a></td>
-					<td><a href="update_delete_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>&update=1" >UPDATE</a></td>
-					<td><a href="update_delete_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>&delete=1" >DELETE</a></td>
-				</tr>		
-				
-				<?php
-					}
-				?>	
+								</div>
+						</div>
 
-				
-			</div>
-		</div>	
+						<div style="float:left;margin-left: 50px;">
+							<table>
+								<tr>
+								<td>Product Name:</td>
+								<td><?php echo $row2['p_name']; ?></td>
+								</tr>
 
+								<tr>
+								<td>Product Description:</td>
+								<td><?php echo $row2['p_desc']; ?></td>
+								</tr>
+
+								<tr>
+									<td>
+										Quantity:
+									</td>
+									<td>
+										<?php echo $row2['p_stock']; ?>
+									</td>
+								</tr>
+
+
+								<tr>
+								<td>Product Price:</td>
+								<td><i class="fa fa-inr" aria-hidden="true"></i>
+								<?php echo $row2['p_price']; ?>
+								</td>
+								</tr>
+
+							</table>
+								
+
+									
+						</div>
+					</div>
+
+
+							
+						
+			
+
+		</div>
+
+		<h3 class="ajax_div"></h3>
+
+
+	</div>
+
+
+
+
+	
 
 </body>
 </html>

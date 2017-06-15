@@ -2,7 +2,8 @@
 	session_start();
 	require_once("config.php");
 	$cat_id=$_GET['cat_id'];
-	
+	$sub_category_id=$_GET['sub_category_id'];
+
 	if(!array_key_exists('admin_name', $_SESSION))
 {
 	header('Location: start.php');
@@ -85,6 +86,7 @@
 			  crossorigin="anonymous">	  	
 	</script>
 	
+          
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<!-- <style type="text/css">
 		div{
@@ -139,19 +141,23 @@
 		<div class="section">
 			<div style="float:right;margin-right: 40px;">
 			<br>
-			<input type="submit" value="ADD SUB-CATEGORY" class="sub_category">
+			<input type="submit" value="ADD PRODUCT" class="product">
 			</div><br>
 			<div style="width: 1200px;">
 			<br>
 			<table border="1" class="bordered">
 				<tr>
-					<td align="center">SUB-CATEGORY NAME</td>
-					<td align="center">VIEW</td>
+					<td align="center">PRODUCT</td>
+					<td>IMAGE</td>
+					<td align="center">VIEW PRODUCT</td>
 					<td align="center">ACTION</td>
 				</tr>
 				<?php
 					
-					$query="SELECT * FROM sub_category_id where cat_id='$cat_id' ";
+					//$query="SELECT * FROM product where cat_id='$cat_id' ";
+					$query="SELECT * FROM product a JOIN sub_category b on 
+							a.p_id=b.p_id where b.sub_category_id='".$sub_category_id."'";
+
 					$result = mysqli_query($con,$query);
 
 					while($row=mysqli_fetch_assoc($result))
@@ -160,10 +166,14 @@
 				?>
 
 				<tr>
-					<td align="center"><?php echo $row['sub_category_name'] ?></td>
-					<td><a href="view_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>" >VIEW</a></td>
-					<td><a href="update_delete_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>&update=1" >UPDATE</a></td>
-					<td><a href="update_delete_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>&delete=1" >DELETE</a></td>
+					<td align="center"><?php echo $row['p_name'] ?></td>
+					<td><img src="<?php echo $row['image'] ?>" width="150px" height="150px" ></td>
+
+					<td><a href="view_product.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $sub_category_id; ?>&p_id=<?php echo $row['p_id']; ?>" >VIEW</a></td>
+
+					<td><a href="update_delete_product.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $sub_category_id; ?>&p_id=<?php echo $row['p_id']; ?>&update=1" >UPDATE</a></td>
+
+					<td><a href="update_delete_product.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $sub_category_id; ?>&p_id=<?php echo $row['p_id']; ?>&delete=1" >DELETE</a></td>
 				</tr>		
 				
 				<?php
