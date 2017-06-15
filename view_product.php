@@ -79,7 +79,8 @@
 
 
 
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+"></script>
 
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
@@ -122,7 +123,7 @@
 
 		<div style="float: left;padding-top: 4px;width: 100px;">
 		<br>
-			<table>
+			<table class="table">
 				<tr><td><i class="fa fa-user-circle" aria-hidden="true">&nbsp;<?php echo $_SESSION['admin_name']; ?></td>
 </i>
 					<td>

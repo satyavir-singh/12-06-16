@@ -7,6 +7,22 @@
 {
 	header('Location: start.php');
 }
+
+
+if( isset($_POST['sub_category_name']) )
+{
+	$cat_id=$_POST["cat_id"];
+	$sub_category_name=$_POST["sub_category_name"];
+	
+	$query= " INSERT INTO sub_category_id (sub_category_name,cat_id)  VALUES ('$sub_category_name','$cat_id') ";
+
+	$result=mysqli_query($con,$query);
+
+	if ($result) 
+	{
+		header("Location: view_category.php?cat_id=$cat_id");
+	}
+}
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +92,8 @@
 
 
 
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+"></script>
 
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
@@ -86,19 +103,7 @@
 	</script>
 	
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-	<!-- <style type="text/css">
-		div{
-			  display:inline-block;
-			  padding:0px;
-			  margin:0px;
-			}
-
-			body{
-			   padding:0px;
-			   margin:0px;
-			}
-	</style>
- -->
+	
 
 
 	
@@ -137,9 +142,21 @@
 
 
 		<div class="section">
-			<div style="float:right;margin-right: 40px;">
+			<div >
 			<br>
-			<input type="submit" value="ADD SUB-CATEGORY" class="sub_category">
+<!-- ADD SUB CATEGORY -->
+			<form method="POST" action="<?=$_SERVER['PHP_SELF']?>">
+		
+			<table>
+			<input type="hidden" name="cat_id" id="cat_id" value="<?php echo $cat_id; ?>">
+				<tr>
+					<td><input type="text" placeholder="SUB-CATEGORY NAME" name="sub_category_name" id="sub_category_name" required></td>
+				<td>
+					<input type="submit" value="ADD SUB-CATEGORY" >
+				</td></tr>
+			</table>
+			</form>
+
 			</div><br>
 			<div style="width: 1200px;">
 			<br>
@@ -162,7 +179,9 @@
 				<tr>
 					<td align="center"><?php echo $row['sub_category_name'] ?></td>
 					<td><a href="view_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>" >VIEW</a></td>
+
 					<td><a href="update_delete_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>&update=1" >UPDATE</a></td>
+
 					<td><a href="update_delete_sub_category.php?cat_id=<?php echo $cat_id; ?>&sub_category_id=<?php echo $row['sub_category_id']; ?>&delete=1" >DELETE</a></td>
 				</tr>		
 				

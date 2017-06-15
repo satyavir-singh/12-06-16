@@ -16,9 +16,10 @@
 
 	if( $delete )
 	{
-		$query="DELETE from category_id where cat_id=$cat_id";
-		 $result=mysqli_query($con,$query);
-	    header("Location: admin_dashboard.php");
+		$query="DELETE from sub_category_id where cat_id=$cat_id and sub_category_id=$sub_category_id";
+
+		$result=mysqli_query($con,$query);
+	    header("Location: view_category.php?cat_id=$cat_id");
 	}
 
 	if( (isset($_POST['sub_category_name']))  && ($update=1) )

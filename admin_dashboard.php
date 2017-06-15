@@ -5,6 +5,22 @@
 {
 	header('Location: start.php');
 }
+
+
+if( isset($_POST['category_name']) )
+{
+	$category_name=$_POST["category_name"];
+	
+	$query= " INSERT INTO category_id (category_name)  VALUES ('$category_name') ";
+
+	$result=mysqli_query($con,$query);
+
+	if ($result) 
+	{
+		header("Location: admin_dashboard.php");
+	}
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +28,9 @@
 <head>
 
 
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="stylesheet.css" rel="stylesheet" type="text/css"/>
 
 	<style>
 		.dropbtn {
@@ -55,7 +74,7 @@
 		}
 	</style>
 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
+
 	<script src="https://code.jquery.com/jquery-3.2.1.js"
 			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			  crossorigin="anonymous">	  	
@@ -116,7 +135,7 @@
 		</div>
 
 		<div style="float: left;padding-top: 4px;width: 100px;">
-			<table>
+			<table class="table-condensed">
 				<tr><td><i class="fa fa-user-circle" aria-hidden="true">&nbsp;<?php echo $_SESSION['admin_name']; ?></td>
 </i>
 				<td><div class="dropdown">
@@ -133,14 +152,25 @@
 		</div>
 	</div>
 
-		<div class="section">
-			<div style="float:right;margin-right: 40px;">
+		<div class="table-responsive">
+			<div style="float:left;margin-right: 40px;">
 			<br>
-			<input type="submit" value="ADD CATEGORY" class="category">
+
+<!-- add category -->
+			<form method="POST" action="<?=$_SERVER['PHP_SELF']?>">
+			<table>
+				<tr>
+					<td><input type="text" placeholder="CATEGORY NAME" name="category_name" id="category_name"></td>
+				<td>
+					<input type="submit" value="ADD CATEGORY" >
+				</td></tr>
+			</table>
+			</form>
+			
 			</div><br>
 			<div style="width: 1200px;">
 			<br>
-			<table border="1" class="bordered">
+			<table border="1" class="table table-inverse">
 				<tr>
 					<td align="center">CATEGORY NAME</td>
 					<td align="center">VIEW SUB-CATEGORY</td>
