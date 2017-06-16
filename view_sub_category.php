@@ -14,6 +14,9 @@
 	{
 	$cat_id=$_POST["cat_id"];
 	$sub_category_id=$_POST["sub_category_id"];
+
+	$category_name=$_POST["category_name"];
+	$sub_category_name=$_POST["sub_category_name"];
 	
 
 	$p_name=$_POST["p_name"];
@@ -30,10 +33,23 @@
 	p_meta_keyword,p_meta_desc,
 	p_stock,p_status)  VALUES 
 	('$p_name','$p_price','$p_meta_title','$p_meta_keyword','$p_meta_desc','$p_stock','$p_status') ";
-
 	$result=mysqli_query($con,$query);
 
-	if ($result) 
+
+	$query3="select * from product where p_name='$p_name'";
+	$result3=mysqli_query($con,$query3);
+	$row=mysqli_fetch_assoc($result3);
+
+	$query1= " INSERT INTO sub_category (sub_category_id,cat_id,p_id,sub_category_name,)  VALUES ('$sub_category_name','$cat_id','','$sub_category_name') ";
+
+	$result1=mysqli_query($con,$query1);
+
+	$query2= " INSERT INTO category (p_id,cat_id,sub_category_id,,sub_category_name,)  VALUES ('$sub_category_name','$cat_id') ";
+
+	$result2=mysqli_query($con,$query2);
+
+	if ($result  ) 
+	
 	{
 		header("Location: view_sub_category.php?cat_id=$cat_id&sub_category_id=$sub_category_id");
 	}
@@ -166,6 +182,20 @@ $(document).ready(function(){
 				<button type="submit" class="product">ADD-Product</button>
 				</div>
 
+				<?php
+
+
+					$query="select * from category_id where cat_id=$cat_id";
+					$result=mysqli_query($con,$query);
+					$row=mysqli_fetch_assoc($result);
+
+
+					$query1="select * from sub_category where sub_category_id=$sub_category_id";
+					$result1=mysqli_query($con,$query1);
+					$row1=mysqli_fetch_assoc($result1);
+
+				?>
+
 
 
 				<div class="div2" style="display: none;">
@@ -174,7 +204,10 @@ $(document).ready(function(){
 				<table>
 				<tr>
 					<input type="hidden" name="cat_id" id="cat_id" value="<?php echo $cat_id; ?>">
+					<input type="hidden" name="category_name" id="category_name" value="<?php echo $row['category_name']; ?>">
+
 					<input type="hidden" name="sub_category_id" id="sub_category_id" value="<?php echo $sub_category_id; ?>">
+					<input type="hidden" name="sub_category_name" id="sub_category_name" value="<?php echo $row1['sub_category_name']; ?>">
 					
 					
 					
@@ -184,7 +217,7 @@ $(document).ready(function(){
 
 				<tr>
 					<td>IMAGE</td>
-					<td><img src="<?php echo $row2['image'] ?>" name="image" id="image" width="150px" height="150px"></td>
+					<td><img src="" name="image" id="image" width="150px" height="150px"></td>
 				</tr>
 
 				<tr>

@@ -18,6 +18,8 @@ if( isset($_POST['sub_category_name']) )
 
 	$result=mysqli_query($con,$query);
 
+	/*$query1= " INSERT INTO sub_category (sub_category_id,cat_id,sub_category_name,)  VALUES ('$sub_category_name','$cat_id') ";
+*/
 	if ($result) 
 	{
 		header("Location: view_category.php?cat_id=$cat_id");
